@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanMatch</title>
+    <link rel="stylesheet" href="assets/estilos/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <!-- Aquí irá la imagen del logo -->
+        <div id="div_logo"></div>
+        <div id="div_titulo">PlanMatch</div>
+        <div id="div_usuario">
+            <!-- Aquí irá la imagen del usuario (si lo consigo) -->
+            <div id="div_img_perfil"></div>
+            <!-- Aquí irá el nombre del usuario (el username, no el correo) -->
+            <div id="div_username"></div>
+        </div>
+    </header>
+    <section>
+        <!-- Modal de todos los formularios -->
+        <div id="modal_formularios">
+            <div id="circulo1"><img src="assets/imagenes/circulo.png" alt="circulo1"></div>
+            <div id="circulo2"><img src="assets/imagenes/circulo.png" alt="circulo2"></div>
+            <div id="circulo3"><img src="assets/imagenes/circulo.png" alt="circulo3"></div>
+            <div id="circulo4"><img src="assets/imagenes/circulo.png" alt="circulo4"></div>
+            <!-- Modal login -->
+            <div id="div_modal_login" class="formulario">
+                <p class="titulo_forms">LOG IN</p>
+                <label for="input_login_email">Dirección de correo electrónico</label>
+                <input type="text" id="input_login_email" placeholder="Ingrese su correo electrónico">
+                <label for="input_login_password">Contraseña</label>
+                <input type="text" id="input_login_password" placeholder="Ingrese su contraseña">
+                <label for="check_recordar" id="label_checkbox">
+                    <input type="checkbox" id="check_recordar">
+                    Recordar sesión
+                </label>
+                <p id="btn_iniciar" onclick="fIniciarSesion()">Iniciar sesión »</p>
+                <p id="btn_ir_registro" onclick="fOcultarForms('div_modal_registro')">¿No tienes cuenta? Regístrate aquí
+                </p>
+                <p id="btn_ir_cambio" onclick="fOcultarForms('div_modal_cambio')">¿Has olvidado tu contraseña?</p>
+            </div>
+            <!-- Modal registro -->
+            <div id="div_modal_registro" class="formulario">
+                <p class="titulo_forms">REGISTRO</p>
+                <label for="input_reg_user">Nombre de usuario</label>
+                <input type="text" id="input_reg_user" placeholder="Ingrese su nombre de usuario">
+                <label for="input_reg_email">Dirección de correo electrónico</label>
+                <input type="text" id="input_reg_email" placeholder="Ingrese su correo electrónico">
+                <label for="input_reg_password">Contraseña</label>
+                <input type="text" id="input_reg_password" placeholder="Ingrese su contraseña">
+                <label for="input_reg_re_password">Repetir contraseña</label>
+                <input type="text" id="input_reg_re_password" placeholder="Repita su contraseña">
+                <p id="btn_registrar" onclick="fRegistrar()">Registrar cuenta »</p>
+                <p id="btn_ir_login" onclick="fOcultarForms('div_modal_login')">¿Ya tienes cuenta? Inicia sesión aquí
+                </p>
+            </div>
+            <!-- Modal cambio de contraseña -->
+            <div id="div_modal_cambio" class="formulario">
+                <p class="titulo_forms">CAMBIAR CONTRASEÑA</p>
+                <label for="input_cambiar_correo">Correo electrónico</label>
+                <input type="text" id="input_cambiar_correo" placeholder="Ingrese su correo electrónico">
+                <div class="botones_cambio">
+                    <p id="btn_atras" onclick="fOcultarForms('div_modal_login')">« Atrás</p>
+                    <p id="btn_confirmar" onclick="fCambiarPassword()">Confirmar »</p>
+                </div>
+            </div>
+            <!-- Modal agregar grupo -->
+            <div id="div_modal_agregar" class="formulario">
+                <p class="titulo_forms">AGREGAR GRUPO</p>
+                <label for="input_agregar_zona">Zona del grupo</label>
+                <input type="text" id="input_agregar_zona" placeholder="Ingrese la zona del grupo">
+                <label for="input_agregar_fecha">Fecha</label>
+                <input type="text" id="input_agregar_fecha" placeholder="Ingrese la fecha">
+                <label for="input_agregar_hora">Hora de salida</label>
+                <input type="text" id="input_agregar_hora" placeholder="Ingrese la hora de salida">
+                <label for="input_agregar_ubicacion">Ubicación</label>
+                <input type="text" id="input_agregar_ubicacion" placeholder="Ingrese la ubicación">
+                <div class="botones_cambio">
+                    <p id="btn_atras" onclick="fOcultarTodo('modal_grupos')">« Atrás</p>
+                    <p id="btn_confirmar" onclick="fAgregar()">Confirmar »</p>
+                </div>
+            </div>
+            <!-- Modal modificar grupo -->
+            <div id="div_modal_modificar" class="formulario">
+                <p class="titulo_forms">MODIFICAR GRUPO</p>
+                <label for="input_modificar_zona">Zona del grupo</label>
+                <input type="text" id="input_modificar_zona" placeholder="Ingrese la nueva zona del grupo">
+                <label for="input_modificar_fecha">Fecha</label>
+                <input type="text" id="input_modificar_fecha" placeholder="Ingrese la nueva fecha">
+                <label for="input_modificar_hora">Hora de salida</label>
+                <input type="text" id="input_modificar_hora" placeholder="Ingrese la nueva hora de salida">
+                <label for="input_modificar_ubicacion">Ubicación</label>
+                <input type="text" id="input_modificar_ubicacion" placeholder="Ingrese la nueva ubicación">
+                <div class="botones_cambio">
+                    <p id="btn_atras" onclick="fOcultarTodo('modal_grupos')">« Atrás</p>
+                    <p id="btn_confirmar" onclick="fModificarGrupo()">Confirmar »</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal del home, aquí se pintarán las diferentes actividades con nombre e icono -->
+        <div id="modal_home"></div>
+
+        <!-- Modal de los grupos, aquí se pintarán los grupos en los que puedes unirte -->
+        <div id="modal_grupos"></div>
+
+        <!-- Aquí se mostrarán los grupos en los que está unido el usuario -->
+        <div id="modal_mis_grupos"></div>
+
+        <!-- Aquí se mostrarán los datos del perfil del usuario con opción a modificarlos -->
+        <div id="modal_perfil"></div>
+
+    </section>
+    <footer>&copy;Claudia Candelas Oviedo</footer>
+    <script type="module" src="assets/scripts/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</body>
+
+</html>
