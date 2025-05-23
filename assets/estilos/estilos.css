@@ -149,11 +149,11 @@ section {
     margin-bottom: 10px;
 }
 
-#div_modal_login>label {
+#div_modal_login > label {
     font-size: 18px;
 }
 
-#div_modal_login>input[type="text"] {
+#div_modal_login > input {
     width: 100%;
     padding: 10px;
     border: 1px solid #836445;
@@ -161,6 +161,30 @@ section {
     background-color: #fdecdc;
     font-size: 14px;
     box-sizing: border-box;
+}
+
+.div_password_img {
+    position: relative;
+    width: 100%;
+}
+
+.div_password_img input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    border: 1px solid #836445;
+    border-radius: 10px;
+    background-color: #fdecdc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.div_password_img img {
+    position: absolute;
+    top: 20%;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }
 
 #check_recordar {
@@ -197,7 +221,6 @@ section {
     cursor: pointer;
 }
 
-
 #div_modal_registro {
     width: 400px;
     padding: 30px;
@@ -214,7 +237,7 @@ section {
     font-size: 18px;
 }
 
-#div_modal_registro>input[type="text"] {
+#div_modal_registro>input {
     width: 100%;
     padding: 10px;
     border: 1px solid #836445;
@@ -254,7 +277,7 @@ section {
     font-size: 18px;
 }
 
-#div_modal_cambio>input[type="text"] {
+#div_modal_cambio>input {
     width: 100%;
     padding: 10px;
     border: 1px solid #836445;
@@ -295,8 +318,8 @@ section {
     font-size: 18px;
 }
 
-#div_modal_agregar>input[type="text"],
-#div_modal_modificar>input[type="text"] {
+#div_modal_agregar>input,
+#div_modal_modificar>input {
     width: 100%;
     padding: 10px;
     border: 1px solid #836445;

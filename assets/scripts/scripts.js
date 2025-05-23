@@ -46,8 +46,8 @@ window.fRegistrar = function () {
             fTraerActividades();
             fTraerUsuario();
         })
-        .catch((error) => {
-            alert(error.message);
+        .catch(() => {
+            alert("No se ha podido registrar");
         })
 }
 
@@ -55,6 +55,10 @@ window.fIniciarSesion = function () {
     const email = document.getElementById("input_login_email").value;
     const password = document.getElementById("input_login_password").value;
     const checkbox = document.getElementById("check_recordar");
+
+    if (!email || !password) {
+        alert("Por favor, complete todos los campos.");
+    }
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -68,9 +72,8 @@ window.fIniciarSesion = function () {
             fTraerActividades();
             fTraerUsuario();
         })
-        .catch((error) => {
-            const errorMessage = error.message;
-            alert(`Login failed: ${errorMessage}`)
+        .catch(() => {
+            alert("Error al iniciar sesión")
         })
 }
 
@@ -184,23 +187,32 @@ window.fTraerUsuario = async function () {
 
 // Esta función carga los grupos y los genera dinámicamente en la modal de los grupos
 window.fGrupos = async function (actividad) {
-
     const user = auth.currentUser;
     const userUid = user.uid;
-
-    // UID de la actividad actual
     sessionStorage.setItem("actividad_actual", actividad);
 
-    fOcultarTodo('modal_grupos')
+    fOcultarTodo('modal_grupos');
+
     const coleccion = collection(firestore, "grupos");
     const consulta = query(coleccion, where("uid_actividad", "==", actividad));
-    let html = ""
+
+    const qUsuarioGrupos = query(
+        collection(firestore, "usuarios_grupos"),
+        where("uid_usuario", "==", userUid)
+    );
+
+    const usuarioGruposSnap = await getDocs(qUsuarioGrupos);
+    const gruposUnidos = new Set();
+    usuarioGruposSnap.forEach((doc) => {
+        gruposUnidos.add(doc.data().uid_grupo);
+    });
+
+    let html = "";
 
     try {
         const snapshot = await getDocs(consulta);
-
         snapshot.forEach((doc) => {
-            const { fecha, horario, ubicacion, uid_actividad, zona, uid_creador } = doc.data();
+            const { fecha, horario, zona, uid_creador } = doc.data();
             const uid = doc.id;
 
             sessionStorage.setItem("grupo_actual", uid);
@@ -211,6 +223,7 @@ window.fGrupos = async function (actividad) {
             html += `<p class='txt_dia'>${fecha}</p>`
             html += `<p class='txt_hora'>${horario}</p>`
             html += "</div>"
+
             if (uid_creador === userUid) {
                 html += "<div class='div_acciones'>"
                 html += "<div class='div_btn_modificar'>"
@@ -221,11 +234,15 @@ window.fGrupos = async function (actividad) {
                 html += "</div>"
                 html += "</div>"
             }
-            html += "<div class='div_btn_grupo'>"
-            html += `<p class='btn_unete' onclick="fUnirUsuario('${uid}')">Únete</p>`
-            html += "</div>"
-            html += "</div>"
 
+            html += "<div class='div_btn_grupo'>"
+            if (gruposUnidos.has(uid)) {
+                html += `<p class='btn_unete' id='btn_unete_${uid}' style="pointer-events: none; opacity: 0.6;">Unido ✔</p>`
+            } else {
+                html += `<p class='btn_unete' id='btn_unete_${uid}' onclick="fUnirUsuario('${uid}')">Únete</p>`
+            }
+            html += "</div>"
+            html += "</div>"
         });
 
         html += `<div id="div_agregar_grupo" onclick="fOcultarTodo('modal_formularios'); fOcultarForms('div_modal_agregar');">`
@@ -242,12 +259,19 @@ window.fGrupos = async function (actividad) {
     }
 }
 
+
 window.fUnirUsuario = async function (grupoId) {
     const user = auth.currentUser;
     const userUid = user.uid;
     const userEmail = user.email;
     const actividadUID = sessionStorage.getItem("actividad_actual");
-    console.log("User UID. ", userUid)
+
+    const btn = document.getElementById(`btn_unete_${grupoId}`);
+    if (btn) {
+        btn.innerText = "Unido ✔";
+        btn.style.pointerEvents = "none";
+        btn.style.opacity = "0.6";
+    }
 
     try {
         await addDoc(collection(firestore, "usuarios_grupos"), {
@@ -304,8 +328,13 @@ window.fUnirUsuario = async function (grupoId) {
         enviarCorreo(asuntoCreador, mensajeCreador, correoCreador);
 
     } catch (error) {
-        console.error("Error al unirse al grupo:", error);
         alert("Ocurrió un error al intentar unirte al grupo.");
+
+        if (btn) {
+            btn.innerText = "Únete";
+            btn.style.pointerEvents = "auto";
+            btn.style.opacity = "1";
+        }
     }
 };
 
@@ -450,7 +479,12 @@ window.fSalirGrupo = async function (grupoId) {
             await deleteDoc(doc.ref);
         });
 
-        console.log("Saliste del grupo correctamente");
+        const btn = document.getElementById(`btn_unete_${grupoId}`);
+        if (btn) {
+            btn.innerText = "Únete";
+            btn.style.pointerEvents = "auto";
+            btn.style.opacity = "1";
+        }
 
         const grupoRef = doc(firestore, "grupos", grupoId);
         const grupoSnap = await getDoc(grupoRef);
@@ -656,4 +690,46 @@ window.enviarCorreo = async function (asunto, mensaje, destinatario) {
         .catch((err) => {
             console.error("Error al enviar el correo ", err);
         });
+}
+
+window.fVerPasswordLogin = function () {
+    let password = document.querySelector("#input_login_password");
+    let imagen = document.querySelector("#login_imagen_ojo");
+
+    if (password.type === "text") {
+        password.type = "password"
+        imagen.src = "assets/imagenes/ojo_cerrado.png"
+        
+    } else {
+        password.type = "text"
+        imagen.src = "assets/imagenes/ojo_abierto.png"
+    }
+}
+
+window.fVerPasswordRegistro = function () {
+    let password = document.querySelector("#input_reg_password");
+    let imagen = document.querySelector("#registro_imagen_ojo");
+
+    if (password.type === "text") {
+        password.type = "password"
+        imagen.src = "assets/imagenes/ojo_cerrado.png"
+        
+    } else {
+        password.type = "text"
+        imagen.src = "assets/imagenes/ojo_abierto.png"
+    }
+}
+
+window.fVerPasswordReRegistro = function () {
+    let password = document.querySelector("#input_reg_re_password");
+    let imagen = document.querySelector("#registro_reg_imagen_ojo");
+
+    if (password.type === "text") {
+        password.type = "password"
+        imagen.src = "assets/imagenes/ojo_cerrado.png"
+        
+    } else {
+        password.type = "text"
+        imagen.src = "assets/imagenes/ojo_abierto.png"
+    }
 }

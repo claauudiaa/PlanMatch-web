@@ -33,9 +33,12 @@
             <div id="div_modal_login" class="formulario">
                 <p class="titulo_forms">LOG IN</p>
                 <label for="input_login_email">Dirección de correo electrónico</label>
-                <input type="text" id="input_login_email" placeholder="Ingrese su correo electrónico">
+                <input type="email" id="input_login_email" placeholder="Ingrese su correo electrónico">
                 <label for="input_login_password">Contraseña</label>
-                <input type="text" id="input_login_password" placeholder="Ingrese su contraseña">
+                <div class="div_password_img">
+                    <input type="password" id="input_login_password" placeholder="Ingrese su contraseña">
+                    <img src="assets/imagenes/ojo_cerrado.png" alt="Ver contraseña" onclick="fVerPasswordLogin()" id="login_imagen_ojo">
+                </div>
                 <label for="check_recordar" id="label_checkbox">
                     <input type="checkbox" id="check_recordar">
                     Recordar sesión
@@ -51,11 +54,17 @@
                 <label for="input_reg_user">Nombre de usuario</label>
                 <input type="text" id="input_reg_user" placeholder="Ingrese su nombre de usuario">
                 <label for="input_reg_email">Dirección de correo electrónico</label>
-                <input type="text" id="input_reg_email" placeholder="Ingrese su correo electrónico">
+                <input type="email" id="input_reg_email" placeholder="Ingrese su correo electrónico">
                 <label for="input_reg_password">Contraseña</label>
-                <input type="text" id="input_reg_password" placeholder="Ingrese su contraseña">
+                <div class="div_password_img">
+                    <input type="password" id="input_reg_password" placeholder="Ingrese su contraseña">
+                    <img src="assets/imagenes/ojo_cerrado.png" alt="Ver contraseña" onclick="fVerPasswordRegistro()" id="registro_imagen_ojo">
+                </div>
                 <label for="input_reg_re_password">Repetir contraseña</label>
-                <input type="text" id="input_reg_re_password" placeholder="Repita su contraseña">
+                <div class="div_password_img">
+                    <input type="password" id="input_reg_re_password" placeholder="Repita su contraseña">
+                    <img src="assets/imagenes/ojo_cerrado.png" alt="Ver contraseña" onclick="fVerPasswordReRegistro()" id="registro_reg_imagen_ojo">
+                </div>
                 <p id="btn_registrar" onclick="fRegistrar()">Registrar cuenta »</p>
                 <p id="btn_ir_login" onclick="fOcultarForms('div_modal_login')">¿Ya tienes cuenta? Inicia sesión aquí
                 </p>
@@ -64,7 +73,7 @@
             <div id="div_modal_cambio" class="formulario">
                 <p class="titulo_forms">CAMBIAR CONTRASEÑA</p>
                 <label for="input_cambiar_correo">Correo electrónico</label>
-                <input type="text" id="input_cambiar_correo" placeholder="Ingrese su correo electrónico">
+                <input type="email" id="input_cambiar_correo" placeholder="Ingrese su correo electrónico">
                 <div class="botones_cambio">
                     <p id="btn_atras" onclick="fOcultarForms('div_modal_login')">« Atrás</p>
                     <p id="btn_confirmar" onclick="fCambiarPassword()">Confirmar »</p>
@@ -76,9 +85,9 @@
                 <label for="input_agregar_zona">Zona del grupo</label>
                 <input type="text" id="input_agregar_zona" placeholder="Ingrese la zona del grupo">
                 <label for="input_agregar_fecha">Fecha</label>
-                <input type="text" id="input_agregar_fecha" placeholder="Ingrese la fecha">
+                <input type="date" id="input_agregar_fecha" placeholder="Ingrese la fecha">
                 <label for="input_agregar_hora">Hora de salida</label>
-                <input type="text" id="input_agregar_hora" placeholder="Ingrese la hora de salida">
+                <input type="time" id="input_agregar_hora" placeholder="Ingrese la hora de salida">
                 <label for="input_agregar_ubicacion">Ubicación</label>
                 <input type="text" id="input_agregar_ubicacion" placeholder="Ingrese la ubicación">
                 <div class="botones_cambio">
@@ -92,9 +101,9 @@
                 <label for="input_modificar_zona">Zona del grupo</label>
                 <input type="text" id="input_modificar_zona" placeholder="Ingrese la nueva zona del grupo">
                 <label for="input_modificar_fecha">Fecha</label>
-                <input type="text" id="input_modificar_fecha" placeholder="Ingrese la nueva fecha">
+                <input type="date" id="input_modificar_fecha" placeholder="Ingrese la nueva fecha">
                 <label for="input_modificar_hora">Hora de salida</label>
-                <input type="text" id="input_modificar_hora" placeholder="Ingrese la nueva hora de salida">
+                <input type="time" id="input_modificar_hora" placeholder="Ingrese la nueva hora de salida">
                 <label for="input_modificar_ubicacion">Ubicación</label>
                 <input type="text" id="input_modificar_ubicacion" placeholder="Ingrese la nueva ubicación">
                 <div class="botones_cambio">
