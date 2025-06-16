@@ -583,7 +583,7 @@ window.fModificarGrupo = async function () {
     const nuevaUbicacion = document.getElementById("input_modificar_ubicacion").value.trim();
 
     const partesFecha = nuevaFechaRaw.split("-");
-    const nuevaFechaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
+    const nuevaFechaFormateada = `${partesFecha[2]}-${partesFecha[1]}-${partesFecha[0]}`;
 
     try {
         const grupoRef = doc(firestore, "grupos", grupoId);
