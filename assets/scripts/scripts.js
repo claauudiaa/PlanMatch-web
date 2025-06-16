@@ -31,6 +31,10 @@ window.fRegistrar = function () {
         alert("Las contraseñas no coinciden.");
     }
 
+    if (password.length < 6) {
+        alert("La contraseña debe tener al menos 6 carácteres")
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -574,15 +578,18 @@ window.fModificarGrupo = async function () {
     const grupoId = sessionStorage.getItem("grupo_actual");
 
     const nuevaZona = document.getElementById("input_modificar_zona").value.trim();
-    const nuevaFecha = document.getElementById("input_modificar_fecha").value.trim();
+    const nuevaFechaRaw = document.getElementById("input_modificar_fecha").value;
     const nuevaHora = document.getElementById("input_modificar_hora").value.trim();
     const nuevaUbicacion = document.getElementById("input_modificar_ubicacion").value.trim();
+
+    const partesFecha = nuevaFechaRaw.split("-");
+    const nuevaFechaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
 
     try {
         const grupoRef = doc(firestore, "grupos", grupoId);
         await updateDoc(grupoRef, {
             zona: nuevaZona,
-            fecha: nuevaFecha,
+            fecha: nuevaFechaFormateada,
             horario: nuevaHora,
             ubicacion: nuevaUbicacion
         });
@@ -606,7 +613,7 @@ window.fModificarGrupo = async function () {
             const asunto = "Grupo actualizado";
             const mensaje =
                 "Hola!\n\nEl grupo ha sido actualizado:\n\n" +
-                "📍 Zona: " + nuevaZona + "\n📅 Día: " + nuevaFecha + "\n🕐 Hora: " + nuevaHora + "\n\n" +
+                "📍 Zona: " + nuevaZona + "\n📅 Día: " + nuevaFechaFormateada + "\n🕐 Hora: " + nuevaHora + "\n\n" +
                 "Ubicación exacta: " + nuevaUbicacion + "\n\n" +
                 "¡Nos vemos pronto!";
 
@@ -620,6 +627,7 @@ window.fModificarGrupo = async function () {
         console.error("Error al actualizar el grupo:", error);
     }
 };
+
 
 
 window.fBorrarGrupo = async function () {
